@@ -38,8 +38,8 @@ import SmartRefreshLayout from 'react-native-smart-refreshview';
 // TODO: What to do with the module?
 
 <SmartRefreshLayout
-                refreshing={this.state.isLoading}
-                onPullRefresh={this.queryAdverts.bind(this)}
+                refreshing={this.state.refreshing}
+                onPullRefresh={this.onPullRefresh.bind(this)}
                 style={{backgroundColor:'#f7f7f7',flex:1}}>
 </SmartRefreshLayout>
 ```
