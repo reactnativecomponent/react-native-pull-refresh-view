@@ -32,7 +32,9 @@ repositories {
 
 dependencies {
     compile 'com.facebook.react:react-native:+'
+    //    compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    compile project(':react-native-smart-refreshview:ptrrefresh')
 }
   

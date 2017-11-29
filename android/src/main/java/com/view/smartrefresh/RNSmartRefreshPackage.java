@@ -23,6 +23,8 @@ public class RNSmartRefreshPackage implements ReactPackage {
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-      return Arrays.<ViewManager>asList(new ReactSmartRefreshLayoutManager());
+      return Arrays.<ViewManager>asList(
+              new ReactPtrAndroidManager(),
+              new ReactSmartRefreshLayoutManager());
     }
 }

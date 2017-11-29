@@ -5,7 +5,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.common.MapBuilder;
@@ -71,7 +70,6 @@ public class ReactSmartRefreshLayoutManager extends ViewGroupManager<SmartRefres
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case 1:
-                        Toast.makeText(reactContext,"完成刷新！   ",Toast.LENGTH_SHORT).show();
                         swipeRefreshLayout.finishRefresh(true);
                         break;
                 }
