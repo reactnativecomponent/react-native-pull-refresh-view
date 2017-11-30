@@ -22,6 +22,7 @@
 2. Append the following lines to `android/settings.gradle`:
   	```
   	include ':react-native-smart-refreshview'
+    include ':react-native-smart-refreshview:ptrrefresh'
   	project(':react-native-smart-refreshview').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-smart-refreshview/android')
   	```
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
