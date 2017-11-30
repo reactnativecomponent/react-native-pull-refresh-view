@@ -78,8 +78,9 @@ export default class PullToRefreshScrollView extends Component {
             <RCTPtrAndroid
                 ref={REF_PTR}
                 {...this.props}
+                style={{flex:1}}
                 onPtrRefresh={() => this._onRefresh()}>
-                <ScrollView style={{flex: 1, flexDirection: 'column'}}>
+                <ScrollView>
                     {this.props.children}
                 </ScrollView>
             </RCTPtrAndroid>
