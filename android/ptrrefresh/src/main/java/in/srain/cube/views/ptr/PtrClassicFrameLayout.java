@@ -66,6 +66,10 @@ public class PtrClassicFrameLayout extends PtrFrameLayout {
         mPtrClassicHeader.refreshableTitleRelease = str;
     }
 
+    public void setRefreshableTitleComplete(String str){
+        mPtrClassicHeader.refreshableTitleComplete = str;
+    }
+
     public void setDateTitle(String str) {
         mPtrClassicHeader.dateTitle = str;
     }

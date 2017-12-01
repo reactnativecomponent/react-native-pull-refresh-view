@@ -114,6 +114,11 @@ public class ReactPtrAndroidManager extends ViewGroupManager<PtrClassicFrameLayo
         ptr.setRefreshableTitleRelease(refreshableTitleRelease);
     }
 
+    @ReactProp(name = "refreshableTitleComplete")
+    public void setRefreshableTitleComplete(PtrClassicFrameLayout ptr, String refreshableTitleComplete) {
+        ptr.setRefreshableTitleComplete(refreshableTitleComplete);
+    }
+
     @ReactProp(name = "dateTitle")
     public void setDateTitle(PtrClassicFrameLayout ptr, String dateTitle) {
         ptr.setDateTitle(dateTitle);

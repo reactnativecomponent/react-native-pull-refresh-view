@@ -29,6 +29,7 @@ export default class PullToRefreshScrollView extends Component {
         refreshableTitlePull: '下拉刷新',
         refreshableTitleRefreshing: '加载中...',
         refreshableTitleRelease: '松手开始刷新',
+        refreshableTitleComplete: '刷新完成.',
         dateTitle: '最后更新时间: ',
     }
 
@@ -100,6 +101,7 @@ PullToRefreshScrollView.propTypes = {
     refreshableTitlePull: PropTypes.string,
     refreshableTitleRefreshing: PropTypes.string,
     refreshableTitleRelease: PropTypes.string,
+    refreshableTitleComplete: PropTypes.string,
     dateTitle: PropTypes.string,
     ...View.propTypes,
 };

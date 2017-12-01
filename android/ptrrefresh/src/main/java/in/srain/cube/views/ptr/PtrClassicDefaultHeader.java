@@ -35,6 +35,7 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
     public String refreshableTitlePull = "下拉刷新";
     public String refreshableTitleRefreshing = "加载中...";
     public String refreshableTitleRelease = "松手开始刷新";
+    public String refreshableTitleComplete = "刷新完成.";
     public boolean displayDate = false;
     public String dateTitle = "最后更新时间: ";
 
@@ -153,7 +154,7 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
 //            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_down_to_refresh));
             mTitleTextView.setText(refreshableTitlePull);
         } else {
-            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_down));
+            mTitleTextView.setText(refreshableTitlePull);
         }
     }
 
@@ -177,7 +178,7 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
         mProgressBar.setVisibility(INVISIBLE);
 
         mTitleTextView.setVisibility(VISIBLE);
-        mTitleTextView.setText(getResources().getString(R.string.cube_ptr_refresh_complete));
+        mTitleTextView.setText(refreshableTitleComplete);
 
         // update last update time
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(KEY_SharedPreferences, 0);
@@ -280,7 +281,7 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
         if (frame.isPullToRefresh()) {
             mTitleTextView.setText(refreshableTitlePull);
         } else {
-            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_down));
+            mTitleTextView.setText(refreshableTitlePull);
         }
     }
 
