@@ -34,14 +34,14 @@
 
 ## Usage
 ```javascript
-import SmartRefreshLayout from 'react-native-smart-refreshview';
+import PullToRefreshScrollView from 'react-native-smart-refreshview';
 
 // TODO: What to do with the module?
 
-<SmartRefreshLayout
+<PullToRefreshScrollView
                 refreshing={this.state.refreshing}
                 onPullRefresh={this.onPullRefresh.bind(this)}
                 style={{backgroundColor:'#f7f7f7',flex:1}}>
-</SmartRefreshLayout>
+</PullToRefreshScrollView>
 ```
   # react-native-smart-refreshview
