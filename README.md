@@ -13,6 +13,10 @@
 
 
 #### iOS
+1. Drag DWRefreshManager.xcodeproj to your project on Xcode.
+2. Click on your main project file (the one that represents the .xcodeproj) select Build Phases and drag libDWRefreshManager..a from the Products folder inside the DWRefreshManager.xcodeproj.
+3. Add import PullToRefreshScrollView from 'react-native-smart-refreshview'; to your code.
+
 
 #### Android
 
@@ -33,6 +37,52 @@
 #### Windows
 
 ## Usage
+
+#### iOS
+```javascript
+import React from 'react';
+import {
+    View,
+    ScrollView,
+} from 'react-native';
+import PullToRefreshScrollView from 'react-native-smart-refreshview';
+var SCROLLVIEW = 'ScrollView';
+var DROP_VIEW_DID_BEGIN_REFRESHING_EVENT = 'dropViewDidBeginRefreshing';
+class RefreshDemo extends React.Component {
+    componentDidMount() {
+        this.msgStatusListener = NativeAppEventEmitter.addListener(DROP_VIEW_DID_BEGIN_REFRESHING_EVENT,(data)=>{
+            console.log(data)
+            });
+
+        PullToRefreshScrollView.configure({
+            node: this.refs[SCROLLVIEW],
+            tintColor: '#DC143C',
+            activityIndicatorViewColor: '#DC143C'
+        }, () => {
+            this.timer = setTimeout(() => {
+                PullToRefreshScrollView.endRefreshing(this.refs[SCROLLVIEW]);
+            }, 2000);
+        });
+    }
+    componentWillUnmount() {
+        this.msgStatusListener && this.msgStatusListener.remove();
+        this.timer && clearTimeout(this.timer);
+    }
+
+    render() {
+        return (
+            <View style={{flex: 1}} >
+                <ScrollView ref={SCROLLVIEW} style={{flex: 1}}>
+                    <View style={{backgroundColor: '#FF1493', height: 150}} />
+                    <View style={{backgroundColor: '#00FFFF', height: 150}} />
+                    <View style={{backgroundColor: '#DAA520', height: 150}} />
+                </ScrollView>
+            </View>
+            )}
+    }
+```
+
+#### Android
 ```javascript
 import PullToRefreshScrollView from 'react-native-smart-refreshview';
 
