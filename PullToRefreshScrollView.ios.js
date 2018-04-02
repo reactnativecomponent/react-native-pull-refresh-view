@@ -14,18 +14,18 @@ let callbacks = {};
 
 export default class PullToRefreshScrollView extends Component {
     static defaultProps = {
-        durationToCloseHeader: 300,
-        durationToClose: 200,
-        resistance: 2,
-        ratioOfHeaderHeightToRefresh: 1.2,
+        durationToCloseHeader: 500,//刷新完成延迟收起
+        // durationToClose: 200,
+        // resistance: 2,
+        // ratioOfHeaderHeightToRefresh: 1.2,
         refreshing:false,
         refreshableTitlePull: '下拉刷新',
         refreshableTitleRefreshing: '加载中...',
         refreshableTitleRelease: '松手开始刷新',
-        refreshableTitleComplete: '刷新完成.',
-        dateTitle: '最后更新时间: ',
-        tintColor:"#05A5D1",
-        activityIndicatorViewColor: '#05A5D1'
+        refreshableTitleComplete: '刷新完成',
+        isShowLastTime: true,
+        tintColor:"#05A5D1",//用于type = 0
+        activityIndicatorViewColor: '#05A5D1'//用于type = 0
     }
     constructor(props) {
         super(props);
@@ -35,10 +35,22 @@ export default class PullToRefreshScrollView extends Component {
     componentDidMount() {
       this.subscription = DeviceEventEmitter.addListener(
             DROP_VIEW_DID_BEGIN_REFRESHING_EVENT,
-            (reactTag) => callbacks[reactTag]()
-        );
+            (reactTag) => {
+                callbacks[reactTag]()
+                this.timer = setTimeout(() => {
+                    this.onRefreshEnd();
+                }, 3000);
+            });
 
         var options = {
+            type:'0',
+            incremental:80,//刷新动画高度
+            strTitlePull:this.props.refreshableTitlePull,
+            strTitleRelease:this.props.refreshableTitleRelease,
+            strTitleRefreshing:this.props.refreshableTitleRefreshing,
+            strTitleComplete:this.props.refreshableTitleComplete,
+            durationToCloseHeader:this.props.durationToCloseHeader,
+            isShowLastTime:this.props.isShowLastTime,
             tintColor: processColor(this.props.tintColor),
             activityIndicatorViewColor: processColor(this.props.activityIndicatorViewColor)
         };

@@ -11,6 +11,13 @@
 #import <React/RCTScrollView.h>
 #import <React/RCTUIManager.h>
 #import <React/RCTConvert.h>
+#import "LNRefresh.h"
+
+@interface DWRefreshManager()
+
+@property (assign, nonatomic) NSInteger myType;//类型
+
+@end
 
 @implementation DWRefreshManager
 
@@ -24,26 +31,41 @@ RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(configure:(NSNumber *__nonnull)reactTag options:(NSDictionary *)options callback:(RCTResponseSenderBlock)callback){
     [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
-        
+        __weak typeof(self)weakSelf = self;
         UIView *view = viewRegistry[reactTag];
         if (!view) {
             RCTLogError(@"Cannot find view with tag #%@", reactTag);
             return;
         }
         UIScrollView *scrollView = ((RCTScrollView *)view).scrollView;
-        
-        DWRefreshControl *refreshControl = [[DWRefreshControl alloc] initInScrollView:scrollView];
-        refreshControl.tag = [reactTag integerValue]; // Maybe something better
-        
-        NSString *tintColor = options[@"tintColor"];
-        // TODO: activityIndicatorViewStyle
-        NSString *activityIndicatorViewColor = options[@"activityIndicatorViewColor"];
-        
-        if (tintColor) refreshControl.tintColor = [RCTConvert UIColor:tintColor];
-        if (activityIndicatorViewColor) refreshControl.activityIndicatorViewColor = [RCTConvert UIColor:activityIndicatorViewColor];
-        
-        [refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
-        
+        NSString *type = options[@"type"];//类型
+        CGFloat incremental = [options[@"incremental"] floatValue];
+        self.myType = type ? [type integerValue] : 0;
+        switch (_myType) {
+            case 1:{//普通刷新
+                [scrollView addPullToRefreshWithOptions:options block:^{
+                    [weakSelf pullToRefreshAndReactTag:reactTag];
+                }];
+            }
+                break;
+            default:{
+                DWRefreshControl *refreshControl = [[DWRefreshControl alloc] initInScrollView:scrollView];
+                refreshControl.dropRelease = ^(DWRefreshControl *control) {
+                    [weakSelf dropViewDidBeginRefreshing:control];
+                };
+                refreshControl.tag = [reactTag integerValue]; // Maybe something better
+                NSString *tintColor = options[@"tintColor"];
+                // TODO: activityIndicatorViewStyle
+                NSString *activityIndicatorViewColor = options[@"activityIndicatorViewColor"];
+                if (tintColor) refreshControl.tintColor = [RCTConvert UIColor:tintColor];
+                refreshControl.OpenedViewHeight = incremental ? incremental : 44;
+                if (activityIndicatorViewColor) refreshControl.activityIndicatorViewColor = [RCTConvert UIColor:activityIndicatorViewColor];
+//                [refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
+                
+            }
+                break;
+        }
+        scrollView.ln_header.animator.incremental = incremental ? incremental : 80;//刷新动画高度
         callback(@[[NSNull null], reactTag]);
     }];
 }
@@ -58,32 +80,33 @@ RCT_EXPORT_METHOD(beginRefreshing:(NSNumber *__nonnull)reactTag) {
         }
         
         UIScrollView *scrollView = ((RCTScrollView *)view).scrollView;
-        
-        DWRefreshControl *refreshControl = (DWRefreshControl *)[scrollView viewWithTag:[reactTag integerValue]];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [refreshControl beginRefreshing];
-        });
+        if(_myType > 0) {
+            [scrollView startRefreshing];
+        }else{
+            DWRefreshControl *refreshControl = (DWRefreshControl *)[scrollView viewWithTag:[reactTag integerValue]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [refreshControl beginRefreshing];
+            });
+        }
     }];
 }
 
 RCT_EXPORT_METHOD(endRefreshing:(NSNumber *__nonnull)reactTag) {
     [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
-        
         UIView *view = viewRegistry[reactTag];
         if (!view) {
             RCTLogError(@"Cannot find view with tag #%@", reactTag);
             return;
         }
-        
         UIScrollView *scrollView = ((RCTScrollView *)view).scrollView;
-
-        
-        DWRefreshControl *refreshControl = (DWRefreshControl *)[scrollView viewWithTag:[reactTag integerValue]];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [refreshControl endRefreshing];
-        });
+        if(_myType > 0) {
+            [scrollView endRefreshing];
+        }else{
+            DWRefreshControl *refreshControl = (DWRefreshControl *)[scrollView viewWithTag:[reactTag integerValue]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [refreshControl endRefreshing];
+            });
+        }
     }];
 }
 
@@ -103,6 +126,12 @@ RCT_EXPORT_METHOD(endRefreshing:(NSNumber *__nonnull)reactTag) {
      dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
      [refreshControl endRefreshing];
      }); */
+}
+
+- (void)pullToRefreshAndReactTag:(NSNumber *)reatTag {
+    NSLog(@"下拉刷新");
+    [self.bridge.eventDispatcher sendDeviceEventWithName:@"dropViewDidBeginRefreshing"
+                                                    body:@([reatTag integerValue])];
 }
 
 @end

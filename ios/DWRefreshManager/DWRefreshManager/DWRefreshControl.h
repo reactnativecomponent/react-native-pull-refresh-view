@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
+@class DWRefreshControl;
+
+typedef void(^dropReleaseBlock)(DWRefreshControl *control);
+
 @interface DWRefreshControl : UIControl{
 
 CAShapeLayer *_shapeLayer;
@@ -24,7 +28,6 @@ BOOL _hasSectionHeaders;
 CGFloat _lastOffset;
 }
 
-@property (nonatomic, readonly, getter=isRefreshing) BOOL refreshing;
 
 #ifdef __IPHONE_5_0
 @property (nonatomic, strong) UIColor *tintColor UI_APPEARANCE_SELECTOR;
@@ -35,6 +38,9 @@ CGFloat _lastOffset;
 @property (nonatomic, assign) UIActivityIndicatorViewStyle activityIndicatorViewStyle;
 @property (nonatomic, strong) UIColor *activityIndicatorViewColor; // iOS5 or more
 #endif
+@property (assign, nonatomic) CGFloat OpenedViewHeight;
+@property (copy, nonatomic) dropReleaseBlock dropRelease;
+@property (nonatomic, readonly, getter=isRefreshing) BOOL refreshing;
 
 - (id)initInScrollView:(UIScrollView *)scrollView;
 
