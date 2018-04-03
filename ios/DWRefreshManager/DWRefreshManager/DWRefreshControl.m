@@ -10,7 +10,7 @@
 
 
 #define kTotalViewHeight    400
-#define kOpenedViewHeight   44
+//#define kOpenedViewHeight   44
 #define kMinTopPadding      9
 #define kMaxTopPadding      5
 #define kMinTopRadius       12.5
@@ -23,12 +23,13 @@
 #define kMaxArrowSize       3
 #define kMinArrowRadius     5
 #define kMaxArrowRadius     7
-#define kMaxDistance        53
+#define kMaxDistance        54
 
 @interface DWRefreshControl ()
 @property (nonatomic, readwrite) BOOL refreshing;
 @property (nonatomic, assign) UIScrollView *scrollView;
 @property (nonatomic, assign) UIEdgeInsets originalContentInset;
+@property (assign, nonatomic) BOOL isRelease;
 @end
 
 @implementation DWRefreshControl
@@ -42,6 +43,22 @@
 static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
 {
     return a + (b - a) * p;
+}
+
+- (void)setIsRelease:(BOOL)isRelease{
+    if (isRelease) {
+        if (self.dropRelease) {
+            self.dropRelease(self);
+        }
+    }
+    _isRelease = isRelease;
+}
+
+- (void)setRefreshing:(BOOL)refreshing{
+    if (!refreshing) {
+        _isRelease = NO;
+    }
+    _refreshing = refreshing;
 }
 
 - (id)initInScrollView:(UIScrollView *)scrollView {
@@ -179,20 +196,18 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
     if (_refreshing) {
         if (offset != 0) {
             // Keep thing pinned at the top
-            
             [CATransaction begin];
             [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-            _shapeLayer.position = CGPointMake(0, kMaxDistance + offset + kOpenedViewHeight);
+            _shapeLayer.position = CGPointMake(0, kMaxDistance + offset + self.OpenedViewHeight);
             [CATransaction commit];
-            
-            _activity.center = CGPointMake(floor(self.frame.size.width / 2), MIN(offset + self.frame.size.height + floor(kOpenedViewHeight / 2), self.frame.size.height - kOpenedViewHeight/ 2));
+            _activity.center = CGPointMake(floor(self.frame.size.width / 2), MIN(offset + self.frame.size.height + floor(self.OpenedViewHeight / 2), self.frame.size.height - self.OpenedViewHeight/ 2));
             
             _ignoreInset = YES;
             _ignoreOffset = YES;
             
             if (offset < 0) {
                 // Set the inset depending on the situation
-                if (offset >= -kOpenedViewHeight) {
+                if (offset >= -self.OpenedViewHeight) {
                     if (!self.scrollView.dragging) {
                         if (!_didSetInset) {
                             _didSetInset = YES;
@@ -207,12 +222,15 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
                             }
                         }
                         if (_hasSectionHeaders) {
-                            [self.scrollView setContentInset:UIEdgeInsetsMake(MIN(-offset, kOpenedViewHeight) + self.originalContentInset.top, self.originalContentInset.left, self.originalContentInset.bottom, self.originalContentInset.right)];
+                            [self.scrollView setContentInset:UIEdgeInsetsMake(MIN(-offset, self.OpenedViewHeight) + self.originalContentInset.top, self.originalContentInset.left, self.originalContentInset.bottom, self.originalContentInset.right)];
                         } else {
-                            [self.scrollView setContentInset:UIEdgeInsetsMake(kOpenedViewHeight + self.originalContentInset.top, self.originalContentInset.left, self.originalContentInset.bottom, self.originalContentInset.right)];
+                            [self.scrollView setContentInset:UIEdgeInsetsMake(self.OpenedViewHeight + self.originalContentInset.top, self.originalContentInset.left, self.originalContentInset.bottom, self.originalContentInset.right)];
                         }
                     } else if (_didSetInset && _hasSectionHeaders) {
                         [self.scrollView setContentInset:UIEdgeInsetsMake(-offset + self.originalContentInset.top, self.originalContentInset.left, self.originalContentInset.bottom, self.originalContentInset.right)];
+                    }
+                    if (!_isRelease) {
+                        self.isRelease = YES;
                     }
                 }
             } else if (_hasSectionHeaders) {
@@ -409,7 +427,7 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
         
         CGPoint offset = self.scrollView.contentOffset;
         _ignoreInset = YES;
-        [self.scrollView setContentInset:UIEdgeInsetsMake(kOpenedViewHeight + self.originalContentInset.top, self.originalContentInset.left, self.originalContentInset.bottom, self.originalContentInset.right)];
+        [self.scrollView setContentInset:UIEdgeInsetsMake(self.OpenedViewHeight + self.originalContentInset.top, self.originalContentInset.left, self.originalContentInset.bottom, self.originalContentInset.right)];
         _ignoreInset = NO;
         [self.scrollView setContentOffset:offset animated:NO];
         
