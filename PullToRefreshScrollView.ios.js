@@ -9,13 +9,13 @@ let callbacks = {}
 export default class PullToRefreshScrollView extends Component {
     static defaultProps = {
 		type: '1', // 刷新指示器的样式0、1
-		incremental:80,//刷新动画高度
-        durationToCloseHeader: 500,//刷新完成延迟收起
+		incremental:80,//刷新动画高度,type=0时建议高度小于60
         activityIndicatorViewColor: '#A9A9A9',
         refreshing:false,
 
         tintColor:"#05A5D1",//仅用于type = 0
         //以下仅用于type = 1
+        durationToCloseHeader: 500,//刷新完成延迟收起
         refreshableTitlePull: '下拉刷新',
         refreshableTitleRefreshing: '加载中...',
         refreshableTitleRelease: '松手开始刷新',
