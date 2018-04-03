@@ -1,6 +1,6 @@
 {
   "name": "react-native-pull-refresh-view",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "## Getting started",
   "main": "index.js",
   "scripts": {
@@ -16,10 +16,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reactnativecomponent/react-native-smart-refreshview.git"
+    "url": "git+https://github.com/reactnativecomponent/react-native-pull-refresh-view.git"
   },
   "bugs": {
-    "url": "https://github.com/reactnativecomponent/react-native-smart-refreshview/issues"
+    "url": "https://github.com/reactnativecomponent/react-native-pull-refresh-view/issues"
   },
-  "homepage": "https://github.com/reactnativecomponent/react-native-smart-refreshview#readme"
+  "homepage": "https://github.com/reactnativecomponent/react-native-pull-refresh-view#readme"
 }
