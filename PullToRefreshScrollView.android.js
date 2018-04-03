@@ -1,19 +1,13 @@
 /**
  * Created by dowin on 2017/11/28.
  */
-'use strict';
-import React, {
-    Component,
-} from 'react';
-import {
-    requireNativeComponent,
-    ScrollView,
-    View,
-} from 'react-native';
-import PropTypes from 'prop-types';
-const UIManager = require('react-native/lib/UIManager');
-const ReactNative = require('react-native');
-const REF_PTR = "ptr_ref";
+'use strict'
+import React, {Component} from 'react'
+import {requireNativeComponent, ScrollView, View} from 'react-native'
+import PropTypes from 'prop-types'
+const UIManager = require('react-native/lib/UIManager')
+const ReactNative = require('react-native')
+const REF_PTR = "ptr_ref"
 
 export default class PullToRefreshScrollView extends Component {
 
@@ -25,54 +19,47 @@ export default class PullToRefreshScrollView extends Component {
         ratioOfHeaderHeightToRefresh: 1.2,
         pullToRefresh: false,
         keepHeaderWhenRefresh: true,
-        refreshing:false,
+        refreshing: false,
         refreshableTitlePull: '下拉刷新',
         refreshableTitleRefreshing: '加载中...',
         refreshableTitleRelease: '松手开始刷新',
         refreshableTitleComplete: '刷新完成.',
-        dateTitle: '最后更新时间: ',
+        dateTitle: '最后更新时间: '
     }
 
-    constructor(props) {
-        super(props);
-        this._onRefresh = this._onRefresh.bind(this);
+    constructor (props) {
+        super(props)
+        this._onRefresh = this._onRefresh.bind(this)
     }
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.refreshing === false && nextProps.refreshing !== this.props.refreshing){
+    componentWillReceiveProps (nextProps) {
+        if (nextProps.refreshing === false && nextProps.refreshing !== this.props.refreshing) {
             this.onRefreshEnd()
         }
     }
-    _onRefresh() {
+    _onRefresh () {
         if (!this.props.onRefresh) {
-            return;
+            return
         }
-        this.props.onRefresh();
-    };
+        this.props.onRefresh()
+    }
 
-    /**
-     * 自动刷新
-     */
-    autoRefresh() {
-        let self = this;
+    autoRefresh () {
+        let self = this
         UIManager.dispatchViewManagerCommand(
             ReactNative.findNodeHandle(self.refs[REF_PTR]),
             1,
             null
-        );
+        )
     }
 
-    /**
-     * 刷新完成
-     */
-    onRefreshEnd() {
+    onRefreshEnd () {
         UIManager.dispatchViewManagerCommand(
             ReactNative.findNodeHandle(this.refs[REF_PTR]),
             0,
             null
-        );
+        )
     }
-
-    render() {
+    render () {
         // onPtrRefresh 事件对应原生的ptrRefresh事件
         return (
             <RCTPtrAndroid
@@ -84,11 +71,11 @@ export default class PullToRefreshScrollView extends Component {
                     {this.props.children}
                 </ScrollView>
             </RCTPtrAndroid>
-        );
+        )
     }
 }
 
-//PullToRefreshScrollView.name = "RCTPtrAndroid"; //便于调试时显示(可以设置为任意字符串)
+// PullToRefreshScrollView.name = "RCTPtrAndroid"; // 便于调试时显示(可以设置为任意字符串)
 PullToRefreshScrollView.propTypes = {
     onPtrRefresh: PropTypes.func,
     resistance: PropTypes.number,
@@ -103,7 +90,6 @@ PullToRefreshScrollView.propTypes = {
     refreshableTitleRelease: PropTypes.string,
     refreshableTitleComplete: PropTypes.string,
     dateTitle: PropTypes.string,
-    ...View.propTypes,
-};
-
-const RCTPtrAndroid = requireNativeComponent('RCTPtrAndroid', PullToRefreshScrollView, {nativeOnly: {onPtrRefresh: true}});
+    ...View.propTypes
+}
+const RCTPtrAndroid = requireNativeComponent('RCTPtrAndroid', PullToRefreshScrollView, {nativeOnly: {onPtrRefresh: true}})
