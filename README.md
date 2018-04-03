@@ -1,5 +1,7 @@
 
 # react-native-smart-refreshview
+## 预览
+![Preview](https://github.com/reactnativecomponent/react-native-smart-refreshview/blob/master/screen/pull.gif)
 
 ## Getting started
 
@@ -34,64 +36,13 @@
       compile project(':react-native-smart-refreshview')
   	```
 
-#### Windows
-
 ## Usage
-
-#### iOS
-```javascript
-import React from 'react';
-import {
-    View,
-    ScrollView,
-} from 'react-native';
-import PullToRefreshScrollView from 'react-native-smart-refreshview';
-var SCROLLVIEW = 'ScrollView';
-var DROP_VIEW_DID_BEGIN_REFRESHING_EVENT = 'dropViewDidBeginRefreshing';
-class RefreshDemo extends React.Component {
-    componentDidMount() {
-        this.msgStatusListener = NativeAppEventEmitter.addListener(DROP_VIEW_DID_BEGIN_REFRESHING_EVENT,(data)=>{
-            console.log(data)
-            });
-
-        PullToRefreshScrollView.configure({
-            node: this.refs[SCROLLVIEW],
-            tintColor: '#DC143C',
-            activityIndicatorViewColor: '#DC143C'
-        }, () => {
-            this.timer = setTimeout(() => {
-                PullToRefreshScrollView.endRefreshing(this.refs[SCROLLVIEW]);
-            }, 2000);
-        });
-    }
-    componentWillUnmount() {
-        this.msgStatusListener && this.msgStatusListener.remove();
-        this.timer && clearTimeout(this.timer);
-    }
-
-    render() {
-        return (
-            <View style={{flex: 1}} >
-                <ScrollView ref={SCROLLVIEW} style={{flex: 1}}>
-                    <View style={{backgroundColor: '#FF1493', height: 150}} />
-                    <View style={{backgroundColor: '#00FFFF', height: 150}} />
-                    <View style={{backgroundColor: '#DAA520', height: 150}} />
-                </ScrollView>
-            </View>
-            )}
-    }
-```
-
-#### Android
 ```javascript
 import PullToRefreshScrollView from 'react-native-smart-refreshview';
-
-// TODO: What to do with the module?
 
 <PullToRefreshScrollView
-                refreshing={this.state.refreshing}
-                onPullRefresh={this.onPullRefresh.bind(this)}
-                style={{backgroundColor:'#f7f7f7',flex:1}}>
+   refreshing={this.state.refreshing}
+   onPullRefresh={this.onPullRefresh.bind(this)}}>
 </PullToRefreshScrollView>
 ```
   # react-native-smart-refreshview
