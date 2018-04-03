@@ -1,6 +1,8 @@
 package com.view.smartrefresh;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,17 +37,19 @@ public class SmartHeader extends LinearLayout implements RefreshHeader {
         super(context, attrs, defStyleAttr);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public SmartHeader(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+
     @Override
-    public void onPullingDown(float percent, int offset, int headerHeight, int extendHeight) {
+    public void onReleasing(float percent, int offset, int headerHeight, int extendHeight) {
 
     }
 
     @Override
-    public void onReleasing(float percent, int offset, int headerHeight, int extendHeight) {
+    public void onReleased(RefreshLayout refreshLayout, int height, int extendHeight) {
 
     }
 
@@ -67,6 +71,11 @@ public class SmartHeader extends LinearLayout implements RefreshHeader {
 
     @Override
     public void onInitialized(RefreshKernel kernel, int height, int extendHeight) {
+
+    }
+
+    @Override
+    public void onPulling(float percent, int offset, int height, int extendHeight) {
 
     }
 

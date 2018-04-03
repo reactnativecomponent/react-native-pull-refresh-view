@@ -7,13 +7,26 @@ import android.util.Log;
 import android.view.View;
 
 import com.facebook.react.bridge.LifecycleEventListener;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
+import com.scwang.smartrefresh.header.BezierCircleHeader;
+import com.scwang.smartrefresh.header.DeliveryHeader;
+import com.scwang.smartrefresh.header.DropboxHeader;
+import com.scwang.smartrefresh.header.FlyRefreshHeader;
+import com.scwang.smartrefresh.header.FunGameBattleCityHeader;
+import com.scwang.smartrefresh.header.FunGameHitBlockHeader;
+import com.scwang.smartrefresh.header.MaterialHeader;
+import com.scwang.smartrefresh.header.PhoenixHeader;
+import com.scwang.smartrefresh.header.StoreHouseHeader;
+import com.scwang.smartrefresh.header.TaurusHeader;
 import com.scwang.smartrefresh.header.WaterDropHeader;
+import com.scwang.smartrefresh.header.WaveSwipeHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -32,6 +45,7 @@ public class ReactSmartRefreshLayoutManager extends ViewGroupManager<SmartRefres
     private static final String ON_PULL_TO_REFRESH_EVENT = "onPullRefresh";
 
     private SmartRefreshLayout swipeRefreshLayout;
+    private ReactContext reactContext;
 
     @Override
     public String getName() {
@@ -40,6 +54,7 @@ public class ReactSmartRefreshLayoutManager extends ViewGroupManager<SmartRefres
 
     @Override
     protected SmartRefreshLayout createViewInstance(final ThemedReactContext reactContext) {
+        this.reactContext = reactContext;
         swipeRefreshLayout = new SmartRefreshLayout(reactContext) {
             private final Runnable measureAndLayout = new Runnable() {
 
@@ -80,7 +95,7 @@ public class ReactSmartRefreshLayoutManager extends ViewGroupManager<SmartRefres
         swipeRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                Log.w(TAG,"=======onRefresh=======");
+                Log.w(TAG, "=======onRefresh=======");
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(getId(), ON_PULL_TO_REFRESH_EVENT, null);
                 handler.sendEmptyMessageDelayed(1, 5000);
             }
@@ -92,6 +107,63 @@ public class ReactSmartRefreshLayoutManager extends ViewGroupManager<SmartRefres
     public void setRefresh(SmartRefreshLayout view, @Nullable boolean refreshing) {
         if (!refreshing)
             view.finishRefresh();
+    }
+
+    @ReactProp(name = "hStyle", defaultInt = 0)
+    public void setRefresh(SmartRefreshLayout view, @Nullable int hStyle) {
+        RefreshHeader header;
+        switch (hStyle) {
+            case 1:
+                header = new BezierCircleHeader(reactContext);
+                view.setRefreshHeader(header);
+                break;
+            case 2:
+                header = new DeliveryHeader(reactContext);
+                view.setRefreshHeader(header);
+                break;
+            case 3:
+                header = new DropboxHeader(reactContext);
+                view.setRefreshHeader(header);
+                break;
+            case 4:
+                header = new FlyRefreshHeader(reactContext);//
+                view.setRefreshHeader(header);
+                break;
+            case 5:
+                header = new FunGameBattleCityHeader(reactContext);
+                view.setRefreshHeader(header);
+                break;
+            case 6:
+                header = new FunGameHitBlockHeader(reactContext);
+                view.setRefreshHeader(header);
+                break;
+            case 7:
+                header = new MaterialHeader(reactContext);
+                view.setRefreshHeader(header);
+                break;
+            case 8:
+                header = new PhoenixHeader(reactContext);
+                view.setRefreshHeader(header);
+                break;
+            case 9:
+                header = new StoreHouseHeader(reactContext);
+                view.setRefreshHeader(header);
+                break;
+            case 10:
+                header = new TaurusHeader(reactContext);//
+                view.setRefreshHeader(header);
+                break;
+            case 11:
+                header = new WaterDropHeader(reactContext);
+                view.setRefreshHeader(header);
+                break;
+            case 12:
+                header = new WaveSwipeHeader(reactContext);
+                view.setRefreshHeader(header);
+                break;
+        }
+        view.requestLayout();
+
     }
 
     int getId() {

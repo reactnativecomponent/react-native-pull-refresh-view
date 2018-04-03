@@ -3,6 +3,7 @@ package in.srain.cube.views.ptr;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -284,7 +287,20 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
             mTitleTextView.setText(refreshableTitlePull);
         }
     }
+    public void setTitleColor(int color){
+        mTitleTextView.setTextColor(color);
+    }
 
+    public void setLastUpdateColor(int color){
+        mLastUpdateTextView.setTextColor(color);
+    }
+
+    public void setProgressDrawable(Drawable drawable){
+        ((ProgressBar)mProgressBar).setIndeterminateDrawable(drawable);
+    }
+    public void setArrowDrawable(Drawable drawable){
+        ((ImageView)mRotateView).setImageDrawable(drawable);
+    }
     private class LastUpdateTimeUpdater implements Runnable {
 
         private boolean mRunning = false;

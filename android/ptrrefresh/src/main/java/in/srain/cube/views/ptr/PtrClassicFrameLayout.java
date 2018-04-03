@@ -1,6 +1,7 @@
 package in.srain.cube.views.ptr;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
 public class PtrClassicFrameLayout extends PtrFrameLayout {
@@ -72,5 +73,18 @@ public class PtrClassicFrameLayout extends PtrFrameLayout {
 
     public void setDateTitle(String str) {
         mPtrClassicHeader.dateTitle = str;
+    }
+
+    public void setTitleColor(int color) {
+        mPtrClassicHeader.setTitleColor(color);
+    }
+    public void setLastUpdateColor(int color) {
+        mPtrClassicHeader.setLastUpdateColor(color);
+    }
+    public void setProgressDrawable(Drawable drawable) {
+        mPtrClassicHeader.setProgressDrawable(drawable);
+    }
+    public void setArrowDrawable(Drawable drawable) {
+        mPtrClassicHeader.setArrowDrawable(drawable);
     }
 }

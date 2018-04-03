@@ -1,9 +1,12 @@
 package com.view.smartrefresh;
 
+import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.ThemedReactContext;
@@ -30,6 +33,8 @@ public class ReactPtrAndroidManager extends ViewGroupManager<PtrClassicFrameLayo
 
     private static final String ON_REFRESH = "onPtrRefresh";
 
+    private ReactContext mContext;
+
     @Override
     public String getName() {
         return "RCTPtrAndroid";
@@ -37,6 +42,7 @@ public class ReactPtrAndroidManager extends ViewGroupManager<PtrClassicFrameLayo
 
     @Override
     protected PtrClassicFrameLayout createViewInstance(final ThemedReactContext reactContext) {
+        mContext = reactContext;
         PtrClassicFrameLayout layout = new PtrClassicFrameLayout(reactContext) {
             private final Runnable measureAndLayout = new Runnable() {
 
@@ -122,6 +128,40 @@ public class ReactPtrAndroidManager extends ViewGroupManager<PtrClassicFrameLayo
     @ReactProp(name = "dateTitle")
     public void setDateTitle(PtrClassicFrameLayout ptr, String dateTitle) {
         ptr.setDateTitle(dateTitle);
+    }
+
+    @ReactProp(name = "titleColor")
+    public void setTitleColor(PtrClassicFrameLayout ptr, String tintColor) {
+        if (TextUtils.isEmpty(tintColor)) {
+            return;
+        }
+        ptr.setTitleColor(Color.parseColor(tintColor));
+    }
+
+    @ReactProp(name = "lastUpdateColor")
+    public void setLastUpdateColor(PtrClassicFrameLayout ptr, String tintColor) {
+        if (TextUtils.isEmpty(tintColor)) {
+            return;
+        }
+        ptr.setLastUpdateColor(Color.parseColor(tintColor));
+    }
+
+    @ReactProp(name = "progressDrawable")
+    public void setProgressDrawable(PtrClassicFrameLayout ptr, String progressDrawable) {
+        if (TextUtils.isEmpty(progressDrawable)) {
+            return;
+        }
+        int drawableId = mContext.getResources().getIdentifier(progressDrawable, "drawable", mContext.getPackageName());
+        ptr.setProgressDrawable(mContext.getResources().getDrawable(drawableId));
+    }
+
+    @ReactProp(name = "arrowDrawable")
+    public void setArrowDrawable(PtrClassicFrameLayout ptr, String arrowDrawable) {
+        if (TextUtils.isEmpty(arrowDrawable)) {
+            return;
+        }
+        int drawableId = mContext.getResources().getIdentifier(arrowDrawable, "drawable", mContext.getPackageName());
+        ptr.setArrowDrawable(mContext.getResources().getDrawable(drawableId));
     }
 
     @Nullable

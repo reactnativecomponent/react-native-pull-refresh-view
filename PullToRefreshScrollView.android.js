@@ -19,7 +19,7 @@ export default class PullToRefreshScrollView extends Component {
 
     static defaultProps = {
         durationToCloseHeader: 300,
-        durationToClose: 200,
+        durationToClose: 2000,
         resistance: 2,
         pinContent: false,
         ratioOfHeaderHeightToRefresh: 1.2,
@@ -31,6 +31,10 @@ export default class PullToRefreshScrollView extends Component {
         refreshableTitleRelease: '松手开始刷新',
         refreshableTitleComplete: '刷新完成.',
         dateTitle: '最后更新时间: ',
+        titleColor:"#666666",
+        lastUpdateColor:"#999999",
+        progressDrawable:"rotate_d",
+        arrowDrawable: 'ptr_rotate_arrow_1'
     }
 
     constructor(props) {
@@ -103,6 +107,10 @@ PullToRefreshScrollView.propTypes = {
     refreshableTitleRelease: PropTypes.string,
     refreshableTitleComplete: PropTypes.string,
     dateTitle: PropTypes.string,
+    titleColor: PropTypes.string,
+    lastUpdateColor: PropTypes.string,
+    progressDrawable: PropTypes.string,
+    arrowDrawable: PropTypes.string,
     ...View.propTypes,
 };
 
