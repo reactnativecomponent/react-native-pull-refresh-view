@@ -8,6 +8,7 @@
 
 #import "LNHeaderAnimator.h"
 #import "LNRefreshHandler.h"
+#import <React/RCTConvert.h>
 
 #define FinishImg [NSString stringWithFormat:@"%@finish.png",imgPath]
 #define ArrowImg [NSString stringWithFormat:@"%@refresh_arrow.png",imgPath]
@@ -24,6 +25,9 @@
 @property (copy, nonatomic) NSString *strTitleRefreshing;
 @property (copy, nonatomic) NSString *strTitleRelease;
 @property (copy, nonatomic) NSString *strTitleComplete;
+@property (strong, nonatomic) UIColor *titleColor;
+@property (strong, nonatomic) UIColor *timeColor;
+@property (strong, nonatomic) UIColor *indicatorColor;
 
 
 
@@ -49,6 +53,12 @@
     _strTitleRelease = [option objectForKey:@"strTitleRelease"] ? [option objectForKey:@"strTitleRelease"]:@"释放刷新";
     _strTitleRefreshing = [option objectForKey:@"strTitleRefreshing"] ? [option objectForKey:@"strTitleRefreshing"]:@"加载中...";
     _strTitleComplete = [option objectForKey:@"strTitleComplete"] ? [option objectForKey:@"strTitleComplete"]:@"刷新完成";
+    NSString *strTitleColor =  [option objectForKey:@"titleColor"];
+    _titleColor = strTitleColor ? [RCTConvert UIColor:strTitleColor]:[UIColor blackColor];
+    NSString *strTimeColor = [option objectForKey:@"timeColor"];
+    _timeColor = strTimeColor ? [RCTConvert UIColor:strTimeColor]:[UIColor grayColor];
+    NSString *strIndicatorColor = [option objectForKey:@"activityIndicatorViewColor"];
+    _indicatorColor = strIndicatorColor ? [RCTConvert UIColor:strIndicatorColor]:[UIColor grayColor];
     _option = option;
 }
 
@@ -70,7 +80,7 @@
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         _titleLabel.font = [UIFont systemFontOfSize:14];
-        _titleLabel.textColor = [UIColor blackColor];
+        _titleLabel.textColor = _titleColor;
         _titleLabel.textAlignment = NSTextAlignmentLeft;
         _titleLabel.text =  _strTitlePull;
     }
@@ -81,7 +91,7 @@
     if (!_timeLabel) {
         _timeLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         _timeLabel.font = [UIFont systemFontOfSize:10];
-        _timeLabel.textColor = [UIColor grayColor];
+        _timeLabel.textColor = _timeColor;
         _timeLabel.textAlignment = NSTextAlignmentLeft;
         _timeLabel.text =  @"";
     }
@@ -115,6 +125,7 @@
 - (UIActivityIndicatorView *)indicatorView {
     if (!_indicatorView) {
         _indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [_indicatorView setColor:_indicatorColor];
         _indicatorView.hidden = YES;
     }
     return _indicatorView;

@@ -15,17 +15,18 @@ let callbacks = {};
 export default class PullToRefreshScrollView extends Component {
     static defaultProps = {
         durationToCloseHeader: 500,//刷新完成延迟收起
-        // durationToClose: 200,
-        // resistance: 2,
-        // ratioOfHeaderHeightToRefresh: 1.2,
+        activityIndicatorViewColor: '#A9A9A9',
         refreshing:false,
+        //以下仅用于type = 1
         refreshableTitlePull: '下拉刷新',
         refreshableTitleRefreshing: '加载中...',
         refreshableTitleRelease: '松手开始刷新',
         refreshableTitleComplete: '刷新完成',
         isShowLastTime: true,
-        tintColor:"#05A5D1",//用于type = 0
-        activityIndicatorViewColor: '#05A5D1'//用于type = 0
+        titleColor:"#696969",
+        timeColor:"#A9A9A9",
+        //以下仅用于type = 0
+        tintColor:"#05A5D1"
     }
     constructor(props) {
         super(props);
@@ -43,16 +44,20 @@ export default class PullToRefreshScrollView extends Component {
             });
 
         var options = {
-            type:'0',
+            type:'1',
             incremental:80,//刷新动画高度
+            activityIndicatorViewColor: processColor(this.props.activityIndicatorViewColor),
             strTitlePull:this.props.refreshableTitlePull,
             strTitleRelease:this.props.refreshableTitleRelease,
             strTitleRefreshing:this.props.refreshableTitleRefreshing,
             strTitleComplete:this.props.refreshableTitleComplete,
             durationToCloseHeader:this.props.durationToCloseHeader,
             isShowLastTime:this.props.isShowLastTime,
-            tintColor: processColor(this.props.tintColor),
-            activityIndicatorViewColor: processColor(this.props.activityIndicatorViewColor)
+            titleColor:processColor(this.props.titleColor),
+            timeColor:processColor(this.props.timeColor),
+            
+            tintColor: processColor(this.props.tintColor)
+
         };
         let nodeHandle = findNodeHandle(this.refs[REF_PTR]);
         DWRefreshManager.configure(nodeHandle, options, (error) => {

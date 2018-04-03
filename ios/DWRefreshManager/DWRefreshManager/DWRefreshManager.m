@@ -61,7 +61,6 @@ RCT_EXPORT_METHOD(configure:(NSNumber *__nonnull)reactTag options:(NSDictionary 
                 refreshControl.OpenedViewHeight = incremental ? incremental : 44;
                 if (activityIndicatorViewColor) refreshControl.activityIndicatorViewColor = [RCTConvert UIColor:activityIndicatorViewColor];
 //                [refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
-                
             }
                 break;
         }
