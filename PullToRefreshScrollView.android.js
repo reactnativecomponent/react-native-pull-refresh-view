@@ -12,23 +12,23 @@ const REF_PTR = "ptr_ref"
 export default class PullToRefreshScrollView extends Component {
 
     static defaultProps = {
-        durationToCloseHeader: 300,
-        durationToClose: 2000,
+        durationToCloseHeader: 300,//关闭延时
+        durationToClose: 200,//向上关闭的时间
         resistance: 2,
         pinContent: false,
         ratioOfHeaderHeightToRefresh: 1.2,
         pullToRefresh: false,
         keepHeaderWhenRefresh: true,
-        refreshing: false,
+        refreshing: false,//设置false结束否刷新
         refreshableTitlePull: '下拉刷新',
         refreshableTitleRefreshing: '加载中...',
         refreshableTitleRelease: '松手开始刷新',
         refreshableTitleComplete: '刷新完成.',
         dateTitle: '最后更新时间: ',
-        titleColor:"#666666",
-        lastUpdateColor:"#999999",
-        progressDrawable:"rotate_d",
-        arrowDrawable: 'ptr_rotate_arrow_1'
+        titleColor:"#666666",//刷新文字颜色
+        lastUpdateColor:"#999999",//更新时间文字颜色
+        progressDrawable:"rotate_d",//刷新时动画drawable名字
+        arrowDrawable: 'ptr_rotate_arrow_1'//箭头图片drawable名字
     }
 
     constructor (props) {
