@@ -24,15 +24,11 @@ export default class PullToRefreshScrollView extends Component {
         refreshableTitleRefreshing: '加载中...',
         refreshableTitleRelease: '松手开始刷新',
         refreshableTitleComplete: '刷新完成.',
-<<<<<<< HEAD
         dateTitle: '最后更新时间: ',
         titleColor:"#666666",
         lastUpdateColor:"#999999",
         progressDrawable:"rotate_d",
         arrowDrawable: 'ptr_rotate_arrow_1'
-=======
-        dateTitle: '最后更新时间: '
->>>>>>> origin/master
     }
 
     constructor (props) {
@@ -98,7 +94,6 @@ PullToRefreshScrollView.propTypes = {
     refreshableTitleRelease: PropTypes.string,
     refreshableTitleComplete: PropTypes.string,
     dateTitle: PropTypes.string,
-<<<<<<< HEAD
     titleColor: PropTypes.string,
     lastUpdateColor: PropTypes.string,
     progressDrawable: PropTypes.string,
@@ -107,8 +102,3 @@ PullToRefreshScrollView.propTypes = {
 };
 
 const RCTPtrAndroid = requireNativeComponent('RCTPtrAndroid', PullToRefreshScrollView, {nativeOnly: {onPtrRefresh: true}});
-=======
-    ...View.propTypes
-}
-const RCTPtrAndroid = requireNativeComponent('RCTPtrAndroid', PullToRefreshScrollView, {nativeOnly: {onPtrRefresh: true}})
->>>>>>> origin/master
