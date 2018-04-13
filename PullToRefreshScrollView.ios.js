@@ -8,8 +8,8 @@ let callbacks = {}
 
 export default class PullToRefreshScrollView extends Component {
     static defaultProps = {
-		type: '1', // 刷新指示器的样式0、1
-		incremental:80,//刷新动画高度,type=0时建议高度小于60
+        type: '1', // 刷新指示器的样式0、1
+        incremental:80,//刷新动画高度,type=0时建议高度小于60
         activityIndicatorViewColor: '#A9A9A9',
         refreshing:false,
 
@@ -28,38 +28,14 @@ export default class PullToRefreshScrollView extends Component {
     constructor (props) {
         super(props)
         this._onRefresh = this._onRefresh.bind(this)
-    }
-    componentDidMount () {
-      this.subscription = DeviceEventEmitter.addListener(
+        this.subscription = DeviceEventEmitter.addListener(
             DROP_VIEW_DID_BEGIN_REFRESHING_EVENT,
             (reactTag) => {
-                callbacks[reactTag]()
-                this.timer = setTimeout(() => {
-                    this.onRefreshEnd();
-                }, 3000);
-            });
-
-        var options = {
-            type:this.props.type,
-            incremental:this.props.incremental,
-            activityIndicatorViewColor: processColor(this.props.activityIndicatorViewColor),
-            strTitlePull:this.props.refreshableTitlePull,
-            strTitleRelease:this.props.refreshableTitleRelease,
-            strTitleRefreshing:this.props.refreshableTitleRefreshing,
-            strTitleComplete:this.props.refreshableTitleComplete,
-            durationToCloseHeader:this.props.durationToCloseHeader,
-            isShowLastTime:this.props.isShowLastTime,
-            titleColor:processColor(this.props.titleColor),
-            timeColor:processColor(this.props.timeColor),
-            
-            tintColor: processColor(this.props.tintColor)
-        };
-        let nodeHandle = findNodeHandle(this.refs[REF_PTR])
-        DWRefreshManager.configure(nodeHandle, options, (error) => {
-            if (!error) {
-                callbacks[nodeHandle] = this._onRefresh
-            }
+            callbacks[reactTag]()
         })
+    }
+    componentDidMount () {
+
     }
     componentWillUnmount() {
         this.subscription && this.subscription.remove()
@@ -82,9 +58,30 @@ export default class PullToRefreshScrollView extends Component {
     }
     render () {
         return (
-            <ScrollView ref={REF_PTR}>
-                {this.props.children}
-            </ScrollView>
-        );
+            <ScrollView onLayout={(e)=>{
+            var options = {
+                type:this.props.type,
+                incremental:this.props.incremental,
+                activityIndicatorViewColor: processColor(this.props.activityIndicatorViewColor),
+                strTitlePull:this.props.refreshableTitlePull,
+                strTitleRelease:this.props.refreshableTitleRelease,
+                strTitleRefreshing:this.props.refreshableTitleRefreshing,
+                strTitleComplete:this.props.refreshableTitleComplete,
+                durationToCloseHeader:this.props.durationToCloseHeader,
+                isShowLastTime:this.props.isShowLastTime,
+                titleColor:processColor(this.props.titleColor),
+                timeColor:processColor(this.props.timeColor),
+                tintColor: processColor(this.props.tintColor)
+            }
+            let nodeHandle = findNodeHandle(this.refs[REF_PTR])
+            DWRefreshManager.configure(nodeHandle, options, (error) => {
+                if (!error) {
+                callbacks[nodeHandle] = this._onRefresh
+            }
+        })
+        }} ref={REF_PTR}>
+            {this.props.children}
+    </ScrollView>
+    );
     }
 }
