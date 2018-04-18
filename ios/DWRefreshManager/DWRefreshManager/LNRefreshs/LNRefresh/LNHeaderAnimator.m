@@ -81,7 +81,7 @@
         _titleLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         _titleLabel.font = [UIFont systemFontOfSize:14];
         _titleLabel.textColor = _titleColor;
-        _titleLabel.textAlignment = NSTextAlignmentLeft;
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.text =  _strTitlePull;
     }
     return _titleLabel;
@@ -92,8 +92,11 @@
         _timeLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         _timeLabel.font = [UIFont systemFontOfSize:10];
         _timeLabel.textColor = _timeColor;
-        _timeLabel.textAlignment = NSTextAlignmentLeft;
-        _timeLabel.text =  @"";
+        _timeLabel.textAlignment = NSTextAlignmentCenter;
+        if ([[self.option objectForKey:@"isShowLastTime"] intValue]) {
+            NSString *strLastTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"DWRefreshTime"];
+            _timeLabel.text =  strLastTime ? strLastTime : @"";
+        }
     }
     return _timeLabel;
 }
@@ -309,9 +312,17 @@
     [self.timeLabel sizeToFit];
     self.titleLabel.center = CGPointMake(viewW/2.0, viewH/2.0 );
     self.timeLabel.center = CGPointMake(viewW/2.0, viewH/2.0 + 20);
-    self.indicatorView.center = CGPointMake(self.titleLabel.frame.origin.x - 36.0, viewH/2.0);
     self.imageView.frame = CGRectMake(0, 0, 18, 18);
-    self.imageView.center = CGPointMake(self.titleLabel.frame.origin.x - 36.0, viewH/2.0);
+    CGFloat maxMin = 70;
+    if (self.titleLabel.frame.size.width * 0.5 > maxMin) {
+        self.indicatorView.center = CGPointMake(self.titleLabel.frame.origin.x - 36.0, viewH/2.0);
+        self.imageView.center = CGPointMake(self.titleLabel.frame.origin.x - 36.0, viewH/2.0);
+    }else{
+        CGFloat pointX = [UIScreen mainScreen].bounds.size.width * 0.5 - maxMin - 10;
+        self.indicatorView.center = CGPointMake(pointX, viewH/2.0);
+        self.imageView.center = CGPointMake(pointX, viewH/2.0);
+    }
+
 }
 
 - (void)startRefreshAnimation_NOR {
@@ -322,6 +333,8 @@
     self.imageView.transform = CGAffineTransformRotate(self.imageView.transform, M_PI);
     if ([[self.option objectForKey:@"isShowLastTime"] intValue]) {
         _strRefreshTime = [NSString stringWithFormat:@"上次更新时间:%@",[self getCurrentTimes]];
+        [[NSUserDefaults standardUserDefaults] setObject:_strRefreshTime forKey:@"DWRefreshTime"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 

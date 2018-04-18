@@ -32,6 +32,9 @@ export default class PullToRefreshScrollView extends Component {
             DROP_VIEW_DID_BEGIN_REFRESHING_EVENT,
             (reactTag) => {
             callbacks[reactTag]()
+                // setTimeout(()=>{
+                //     this.onRefreshEnd();
+                // },2000)
         })
     }
     componentDidMount () {
