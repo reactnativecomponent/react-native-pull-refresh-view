@@ -1,6 +1,8 @@
 package com.view.smartrefresh;
 
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -152,7 +154,16 @@ public class ReactPtrAndroidManager extends ViewGroupManager<PtrClassicFrameLayo
             return;
         }
         int drawableId = mContext.getResources().getIdentifier(progressDrawable, "drawable", mContext.getPackageName());
-        ptr.setProgressDrawable(mContext.getResources().getDrawable(drawableId));
+        if (drawableId != 0) {
+            Drawable d = null;
+            try {
+                d = mContext.getResources().getDrawable(drawableId);
+                ptr.setProgressDrawable(d);
+            } catch (Resources.NotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     @ReactProp(name = "arrowDrawable")
@@ -161,7 +172,16 @@ public class ReactPtrAndroidManager extends ViewGroupManager<PtrClassicFrameLayo
             return;
         }
         int drawableId = mContext.getResources().getIdentifier(arrowDrawable, "drawable", mContext.getPackageName());
-        ptr.setArrowDrawable(mContext.getResources().getDrawable(drawableId));
+        if (drawableId != 0) {
+            Drawable d = null;
+            try {
+                d = mContext.getResources().getDrawable(drawableId);
+                ptr.setArrowDrawable(d);
+            } catch (Resources.NotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     @Nullable

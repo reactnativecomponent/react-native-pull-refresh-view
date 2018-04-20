@@ -28,7 +28,7 @@ Drag LNRefresh.bundle to Resources
 2. Append the following lines to `android/settings.gradle`:
   	```
   	include ':react-native-pull-refresh-view'
-    include ':react-native-pull-refresh-view:ptrrefresh'
+    include ':react-native-pull-refresh-view:tptrrefresh'
   	project(':react-native-pull-refresh-view').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-pull-refresh-view/android')
   	```
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
