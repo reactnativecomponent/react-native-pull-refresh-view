@@ -42,7 +42,7 @@ import PullToRefreshScrollView from 'react-native-pull-refresh-view';
 
 <PullToRefreshScrollView
    refreshing={this.state.refreshing}
-   onPullRefresh={this.onPullRefresh.bind(this)}}>
+   onRefresh={this.onPullRefresh.bind(this)}}>
 </PullToRefreshScrollView>
 ```
   # react-native-pull-refresh-view
