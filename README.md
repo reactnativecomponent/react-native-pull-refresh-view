@@ -1,7 +1,8 @@
 
 # react-native-pull-refresh-view
 ## 预览
-![Preview](https://github.com/reactnativecomponent/react-native-pull-refresh-view/blob/master/screen/pull.gif)
+![Preview](https://github.com/reactnativecomponent/react-native-pull-refresh-view/blob/master/screen/pull_android.gif)
+![Preview](https://github.com/reactnativecomponent/react-native-pull-refresh-view/blob/master/screen/pull_ios.gif)
 
 ## Getting started
 
