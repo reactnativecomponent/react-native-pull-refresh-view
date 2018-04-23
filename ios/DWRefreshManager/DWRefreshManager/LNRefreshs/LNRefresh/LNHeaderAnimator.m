@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSMutableDictionary *stateDurations;    //所有状态对应的动画时间
 @property (nonatomic, strong) UIActivityIndicatorView *indicatorView; //UIActivityIndicatorView
 @property (copy, nonatomic) NSString *strRefreshTime;
+@property (assign, nonatomic) CGFloat titleLabelWidth;//title宽度
 
 @property (copy, nonatomic) NSString *strTitlePull;
 @property (copy, nonatomic) NSString *strTitleRefreshing;
@@ -59,6 +60,7 @@
     _timeColor = strTimeColor ? [RCTConvert UIColor:strTimeColor]:[UIColor grayColor];
     NSString *strIndicatorColor = [option objectForKey:@"activityIndicatorViewColor"];
     _indicatorColor = strIndicatorColor ? [RCTConvert UIColor:strIndicatorColor]:[UIColor grayColor];
+    _titleLabelWidth = [option objectForKey:@"titleWidth"]  ?  [[option objectForKey:@"titleWidth"] floatValue] : 0.0;
     _option = option;
 }
 
@@ -310,19 +312,16 @@
     CGFloat viewH = size.height;
     [self.titleLabel sizeToFit];
     [self.timeLabel sizeToFit];
+    self.imageView.frame = CGRectMake(0, 0, 18, 18);
+    if (_titleLabelWidth) {
+        CGRect titleRect = _titleLabel.frame;
+        titleRect.size.width = _titleLabelWidth;
+        self.titleLabel.frame = titleRect;
+    }
     self.titleLabel.center = CGPointMake(viewW/2.0, viewH/2.0 );
     self.timeLabel.center = CGPointMake(viewW/2.0, viewH/2.0 + 20);
-    self.imageView.frame = CGRectMake(0, 0, 18, 18);
-    CGFloat maxMin = 70;
-    if (self.titleLabel.frame.size.width * 0.5 > maxMin) {
-        self.indicatorView.center = CGPointMake(self.titleLabel.frame.origin.x - 36.0, viewH/2.0);
-        self.imageView.center = CGPointMake(self.titleLabel.frame.origin.x - 36.0, viewH/2.0);
-    }else{
-        CGFloat pointX = [UIScreen mainScreen].bounds.size.width * 0.5 - maxMin - 10;
-        self.indicatorView.center = CGPointMake(pointX, viewH/2.0);
-        self.imageView.center = CGPointMake(pointX, viewH/2.0);
-    }
-
+    self.indicatorView.center = CGPointMake(self.titleLabel.frame.origin.x - 26.0, viewH/2.0);
+    self.imageView.center = CGPointMake(self.titleLabel.frame.origin.x - 26.0, viewH/2.0);
 }
 
 - (void)startRefreshAnimation_NOR {

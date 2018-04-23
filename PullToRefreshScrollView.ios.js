@@ -22,7 +22,8 @@ export default class PullToRefreshScrollView extends Component {
         refreshableTitleComplete: '刷新完成',
         isShowLastTime: true,
         titleColor:"#696969",
-        timeColor:"#A9A9A9"
+        timeColor:"#A9A9A9",
+        titleWidth:90,
 
     }
     constructor (props) {
@@ -74,7 +75,8 @@ export default class PullToRefreshScrollView extends Component {
                 isShowLastTime:this.props.isShowLastTime,
                 titleColor:processColor(this.props.titleColor),
                 timeColor:processColor(this.props.timeColor),
-                tintColor: processColor(this.props.tintColor)
+                tintColor: processColor(this.props.tintColor),
+                titleWidth:this.props.titleWidth
             }
             let nodeHandle = findNodeHandle(this.refs[REF_PTR])
             DWRefreshManager.configure(nodeHandle, options, (error) => {
