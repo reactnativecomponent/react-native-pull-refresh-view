@@ -28,7 +28,7 @@ export default class PullToRefreshScrollView extends Component {
         titleColor:"#666666",//刷新文字颜色
         lastUpdateColor:"#999999",//更新时间文字颜色
         progressDrawable:"rotate_d",//刷新时动画drawable名字
-        arrowDrawable: 'ptr_rotate_arrow_1'//箭头图片drawable名字
+        arrowDrawable: 'ptr_rotate_arrow'//箭头图片drawable名字
     }
 
     constructor (props) {
