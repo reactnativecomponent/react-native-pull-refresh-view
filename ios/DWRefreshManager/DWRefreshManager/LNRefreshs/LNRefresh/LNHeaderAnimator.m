@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UIActivityIndicatorView *indicatorView; //UIActivityIndicatorView
 @property (copy, nonatomic) NSString *strRefreshTime;
 @property (assign, nonatomic) CGFloat titleLabelWidth;//title宽度
+@property (assign, nonatomic) int titleHiddenType;//titlelabel显示类型，0，默认类型，全部显示，1，全部不显示，2，刷新完成时不显示，3，下拉过程不显示
 
 @property (copy, nonatomic) NSString *strTitlePull;
 @property (copy, nonatomic) NSString *strTitleRefreshing;
@@ -61,6 +62,8 @@
     NSString *strIndicatorColor = [option objectForKey:@"activityIndicatorViewColor"];
     _indicatorColor = strIndicatorColor ? [RCTConvert UIColor:strIndicatorColor]:[UIColor grayColor];
     _titleLabelWidth = [option objectForKey:@"titleWidth"]  ?  [[option objectForKey:@"titleWidth"] floatValue] : 0.0;
+    _titleHiddenType = [option objectForKey:@"titleHiddenType"] ? [[option objectForKey:@"titleHiddenType"] intValue] : 0 ;
+    
     _option = option;
 }
 
@@ -85,6 +88,9 @@
         _titleLabel.textColor = _titleColor;
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.text =  _strTitlePull;
+        if (_titleHiddenType == 3 || _titleHiddenType == 1) {
+            _titleLabel.hidden = YES;
+        }
     }
     return _titleLabel;
 }
@@ -320,8 +326,14 @@
     }
     self.titleLabel.center = CGPointMake(viewW/2.0, viewH/2.0 );
     self.timeLabel.center = CGPointMake(viewW/2.0, viewH/2.0 + 20);
-    self.indicatorView.center = CGPointMake(self.titleLabel.frame.origin.x - 26.0, viewH/2.0);
-    self.imageView.center = CGPointMake(self.titleLabel.frame.origin.x - 26.0, viewH/2.0);
+    if (self.titleLabel.hidden) {
+        self.imageView.center = CGPointMake(viewW/2.0, viewH/2.0 );
+        self.indicatorView.center = CGPointMake(viewW/2.0, viewH/2.0 );
+    }else{
+        self.imageView.center = CGPointMake(self.titleLabel.frame.origin.x - 26.0, viewH/2.0);
+        self.indicatorView.center = CGPointMake(self.titleLabel.frame.origin.x - 26.0, viewH/2.0);
+    }
+    
 }
 
 - (void)startRefreshAnimation_NOR {
@@ -352,6 +364,16 @@
     self.imageView.hidden = NO;
     self.indicatorView.hidden = YES;
     self.titleLabel.text =  _strTitlePull;
+    switch (_titleHiddenType) {
+        case 2:
+            self.titleLabel.hidden = NO;
+            break;
+        case 3:
+            self.titleLabel.hidden = YES;
+            break;
+        default:
+            break;
+    }
     [UIView animateWithDuration:self.arrowTime animations:^{
         self.arrowTime = 0.0;
         self.imageView.transform = CGAffineTransformIdentity;
@@ -360,10 +382,22 @@
 
 - (void)endRefreshAnimation_End{
     [self.indicatorView stopAnimating];
-    self.imageView.hidden = NO;
-    self.imageView.image = [UIImage imageNamed:FinishImg];
+    if ([[self.option objectForKey:@"isShowCompleteImage"] intValue]) {
+        self.imageView.hidden = NO;
+        self.imageView.image = [UIImage imageNamed:FinishImg];
+    }
     self.indicatorView.hidden = YES;
     self.titleLabel.text =  _strTitleComplete;
+    switch (_titleHiddenType) {
+        case 2:
+            self.titleLabel.hidden = YES;
+            break;
+        case 3:
+            self.titleLabel.hidden = NO;
+            break;
+        default:
+            break;
+    }
     [UIView animateWithDuration:self.arrowTime animations:^{
         self.arrowTime = 0.0;
         self.imageView.transform = CGAffineTransformIdentity;
