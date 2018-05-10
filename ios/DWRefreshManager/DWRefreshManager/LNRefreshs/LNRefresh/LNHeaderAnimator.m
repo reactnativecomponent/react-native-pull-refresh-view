@@ -381,11 +381,16 @@
 }
 
 - (void)endRefreshAnimation_End{
-    [self.indicatorView stopAnimating];
+    
     if ([[self.option objectForKey:@"isShowCompleteImage"] intValue]) {
         self.imageView.hidden = NO;
         self.imageView.image = [UIImage imageNamed:FinishImg];
+    }else{
+        if (_titleHiddenType == 2 || _titleHiddenType == 1) {
+            return;
+        }
     }
+    [self.indicatorView stopAnimating];
     self.indicatorView.hidden = YES;
     self.titleLabel.text =  _strTitleComplete;
     switch (_titleHiddenType) {
@@ -471,3 +476,4 @@
 - (void)refreshView_DIY:(LNRefreshComponent *)view progress:(CGFloat)progress {}
 - (void)refreshHeaderView_DIY:(LNRefreshComponent *)view state:(LNRefreshState)state {}
 @end
+

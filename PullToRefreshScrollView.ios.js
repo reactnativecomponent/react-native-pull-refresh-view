@@ -24,7 +24,7 @@ export default class PullToRefreshScrollView extends Component {
         titleColor:"#696969",
         timeColor:"#A9A9A9",
         titleWidth:90,//固定title的宽度，默认是自动计算宽度
-        titleHiddenType:2,//titlelabel显示类型，0，默认类型，显示，1，不显示，2，刷新完成时不显示，3，下拉过程不显示,完成时显示
+        titleHiddenType:0,//titlelabel显示类型，0，默认类型，显示，1，不显示，2，刷新完成时不显示，3，下拉过程不显示,完成时显示
         isShowCompleteImage: true,//是否显示刷新完成的图标
 
     }
@@ -35,9 +35,9 @@ export default class PullToRefreshScrollView extends Component {
             DROP_VIEW_DID_BEGIN_REFRESHING_EVENT,
             (reactTag) => {
             callbacks[reactTag]()
-                // setTimeout(()=>{
-                //     this.onRefreshEnd();
-                // },2000)
+                setTimeout(()=>{
+                    this.onRefreshEnd();
+                },2000)
         })
     }
     componentDidMount () {
